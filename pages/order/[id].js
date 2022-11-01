@@ -168,6 +168,35 @@ function OrderScreen() {
     }
   }
 
+  async function createOrderVNpay() {
+    try {
+      dispatch({ type: 'DELIVER_REQUEST' })
+      const { data } = await axios.post(`/api/orders/${order._id}/vnpay`, order)
+      // dispatch({ type: 'DELIVER_SUCCESS', payload: data })
+      console.log('data req', data)
+      toast.success('Order is delivered')
+    } catch (err) {
+      dispatch({ type: 'DELIVER_FAIL', payload: getError(err) })
+      toast.error(getError(err))
+    }
+  }
+  // function onApproveVNpay(data, actions) {
+  //   return actions.order.capture().then(async function (details) {
+  //     try {
+  //       dispatch({ type: 'PAY_REQUEST' })
+  //       const { data } = await axios.put(
+  //         `/api/orders/${order._id}/pay`,
+  //         details
+  //       )
+  //       dispatch({ type: 'PAY_SUCCESS', payload: data })
+  //       toast.success('Order is paid successgully')
+  //     } catch (err) {
+  //       dispatch({ type: 'PAY_FAIL', payload: getError(err) })
+  //       toast.error(getError(err))
+  //     }
+  //   })
+  // }
+
   return (
     <Layout title={`Order ${orderId}`}>
       <h1 className="mb-4 text-xl">{`Order ${orderId}`}</h1>
@@ -271,6 +300,15 @@ function OrderScreen() {
                   <li>
                     {isPending ? (
                       <div>Loading...</div>
+                    ) : paymentMethod === 'VNPay' ? (
+                      <div className="w-full">
+                        <button
+                          className="primary-button w-full"
+                          onClick={createOrderVNpay}
+                        >
+                          VNPay
+                        </button>
+                      </div>
                     ) : (
                       <div className="w-full">
                         <PayPalButtons
