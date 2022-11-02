@@ -6,7 +6,7 @@ import CheckoutWizard from '../components/CheckoutWizard'
 import Layout from '../components/Layout'
 import { Store } from '../utils/Store'
 
-const paymentMethods = ['PayPal', 'VNPay', 'CashOnDelivery']
+const paymentMethods = ['PayPal / Visa / Mastercard', 'VNPay']
 
 export default function PaymentScreen() {
   const [selectedPaymentMethod, setSelectedPaymentMethod] = useState('')
